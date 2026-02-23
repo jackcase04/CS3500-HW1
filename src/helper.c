@@ -344,6 +344,339 @@ int hexadecimal(char string[]) {
     }
 }
 
+int charliteral(char string[]) {
+    int len = strlen(string);
+    int state = 0;
+    char val;
+
+    for (int i = 0; i < len; ++i) {
+        val = string[i];
+
+        switch (state) {
+            case 0:
+                if (isdigit(val) || (val >= 'A' && val <= 'F')) state = 1;
+                else return -1;
+
+                break;
+            case 1:
+                if (isdigit(val) || (val >= 'A' && val <= 'F')) state = 2;
+                else return -1;
+
+                break;
+            case 2:
+                if (val == 'X') state = 3;
+                else return -1;
+                break;
+
+            case 3:
+                return -1;
+                break;
+        }
+    }
+
+    if (state == 3) {
+        return 1;
+    }
+}
+
+int aircraft(char string[]) {
+    int len = strlen(string);
+    int state = 0;
+    char val;
+
+    for (int i = 0; i < len; ++i) {
+        val = string[i];
+
+        switch (state) {
+            case 0:
+                if (
+                    val == 'A'
+                    || val == 'G'
+                    || val == 'J'
+                    || val == 'D'
+                    || val == 'P'
+                    || val == 'L'
+                ) state = 1;
+                else return -1;
+
+                break;
+            case 1:
+                if (isdigit(val)) state = 2;
+                else return -1;
+
+                break;
+            case 2:
+                if (isdigit(val)) state = 3;
+                else if (
+                    val == 'A'
+                    || val == 'K'
+                    || val == 'M'
+                    || val == 'N'
+                    || val == 'Y'
+                ) state = 4;
+                else return -1;
+
+                break;
+            case 3:
+                if (
+                    val == 'A'
+                    || val == 'K'
+                    || val == 'M'
+                    || val == 'N'
+                    || val == 'Y'
+                ) state = 4;
+                else return -1;
+
+                break;
+            case 4:
+                if (isdigit(val)) state = 5;
+                else return -1;
+
+                break;
+            case 5:
+                if (val == '-') state = 7;
+                else if (isdigit(val)) state = 6;
+                else return -1;
+
+                break;
+
+            case 6:
+                if (val == '-') state = 7;
+                else return -1;
+
+                break;
+
+            case 7:
+                if (
+                    val == 'A'
+                    || val == 'G'
+                    || val == 'J'
+                    || val == 'D'
+                    || val == 'P'
+                    || val == 'L'
+                ) state = 8;
+                else return -1;
+
+                break;
+            case 8:
+                return -1;
+                break;
+        }
+    }
+
+    if (state == 4 || state == 5 || state == 6 || state == 8) {
+        return 1;
+    }
+}
+
+int identifier(char string[]) {
+    int len = strlen(string);
+    int state = 0;
+    char val;
+
+    for (int i = 0; i < len; ++i) {
+        val = string[i];
+
+        switch (state) {
+            case 0:
+                if (isalpha(val)) state = 1;
+                else return -1;
+
+                break;
+            case 1:
+                if (isalnum(val) || val == '_') state = 1;
+                else return -1;
+
+                break;
+        }
+    }
+
+    if (state == 1) {
+        return 1;
+    }
+}
+
+int string_literal(char string[]) {
+    int len = strlen(string);
+    int state = 0;
+    char val;
+
+    for (int i = 0; i < len; ++i) {
+        val = string[i];
+
+        switch (state) {
+            case 0:
+                if (val == '"') state = 1;
+                
+                else return -1;
+
+                break;
+            case 1:
+                if (val != ' ' && val != '"') state = 2;
+                else return -1;
+
+                break;
+            case 2:
+                if (val != ' ' && val != '"') state = 2;
+                else if (val == '"') state = 3;
+                else return -1;
+
+                break;
+            case 3:
+                return -1;
+
+                break;
+        }
+    }
+
+    if (state == 3) {
+        return 1;
+    }
+}
+
+int phone_number(char string[]) {
+    int len = strlen(string);
+    int state = 0;
+    char val;
+
+    for (int i = 0; i < len; ++i) {
+        val = string[i];
+
+        switch (state) {
+            case 0:
+                if (isdigit(val)) state = 1;
+                else if (val == '(') state = 4;
+                else return -1;
+
+                break;
+
+            case 1:
+                if (isdigit(val)) state = 2;
+                else return -1;
+
+                break;
+
+            case 2:
+                if (isdigit(val)) state = 3;
+                else return -1;
+
+                break;
+
+            case 3:
+                if (val == '.') state = 8;
+                else if (val == '-') state = 12;
+                else return -1;
+
+                break;
+
+            case 4:
+                if (isdigit(val)) state = 5;
+                else return -1;
+
+                break;
+
+            case 5:
+                if (isdigit(val)) state = 6;
+                else return -1;
+
+                break;
+
+            case 6:
+                if (isdigit(val)) state = 7;
+                else return -1;
+
+                break;
+
+            case 7:
+                if (val == ')') state = 12;
+                else return -1;
+
+                break;
+
+            case 8:
+                if (isdigit(val)) state = 9;
+                else return -1;
+
+                break;
+
+            case 9:
+                if (isdigit(val)) state = 10;
+                else return -1;
+
+                break;
+
+            case 10:
+                if (isdigit(val)) state = 11;
+                else return -1;
+
+                break;
+
+            case 11:
+                if (val == '.') state = 16;
+                else return -1;
+
+                break;
+
+            case 12:
+                if (isdigit(val)) state = 13;
+                else return -1;
+
+                break;
+
+            case 13:
+                if (isdigit(val)) state = 14;
+                else return -1;
+
+                break;
+
+            case 14:
+                if (isdigit(val)) state = 15;
+                else return -1;
+
+                break;
+
+            case 15:
+                if (val == '-') state = 16;
+                else return -1;
+
+                break;
+
+            case 16:
+                if (isdigit(val)) state = 17;
+                else return -1;
+
+                break;
+
+            case 17:
+                if (isdigit(val)) state = 18;
+                else return -1;
+
+                break;
+
+            case 18:
+                if (isdigit(val)) state = 19;
+                else return -1;
+
+                break;
+
+            case 19:
+                if (isdigit(val)) state = 20;
+                else return -1;
+
+                break;
+
+            case 20:
+                return -1;
+
+                break;
+        }
+    }
+
+    if (state == 20) {
+        return 1;
+    }
+}
+
 void lexx(char string[]) {
     if (scientific(string) == 1) {
         printf("Scientific\n");
@@ -355,48 +688,17 @@ void lexx(char string[]) {
         printf("Keyword\n");
     } else if (hexadecimal(string) == 1) {
         printf("Hexadecimal\n");
+    } else if (charliteral(string) == 1) {
+        printf("Character\n");
+    } else if (aircraft(string) == 1) {
+        printf("Aircraft\n");
+    } else if (identifier(string) == 1) {
+        printf("Identifier\n");
+    } else if (string_literal(string) == 1) {
+        printf("String\n");
+    } else if (phone_number(string) == 1) {
+        printf("Phone\n");
     } else {
         printf("INVALID!\n");
     }
 }
-
-// int scientific(char string[]) {
-//     int len = strlen(string);
-//     int state = 0;
-//     char val;
-
-//     for (int i = 0; i < len; ++i) {
-//         val = string[i];
-
-//         switch (state) {
-//             case 0:
-//                 if (isdigit(val)) state = 2;
-//                 if (val == '-' || val == '+') state = 1;
-                
-//                 break;
-//             case 1:
-
-//                 break;
-//             case 2:
-
-//                 break;
-//             case 3:
-
-//                 break;
-//             case 4:
-
-//                 break;
-//             case 5:
-
-//                 break;
-
-//             case 6:
-
-//                 break;
-
-//             case 7:
-
-//                 break;
-//         }
-//     }
-// }

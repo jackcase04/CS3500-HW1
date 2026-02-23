@@ -11,6 +11,16 @@ int keyword(char string[]);
 
 int hexadecimal(char string[]);
 
+int charliteral(char string[]);
+
+int aircraft(char string[]);
+
+int identifier(char string[]);
+
+int string_literal(char string[]);
+
+int phone_number(char string[]);
+
 void lexx(char string[]);
 
 #endif
